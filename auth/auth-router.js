@@ -6,12 +6,14 @@ const users = require('./users-model');
 
 router.post('/register', (req, res) => {
   let user = req.body;
+  console.log(user);
 
   const hash = bcrypt.hashSync(user.password, 8);
   user.password = hash;
 
   users.add(user)
     .then(added => {
+      console.log(user);
       res.status(201).json(added);
     })
     .catch(error => {
@@ -45,14 +47,14 @@ router.post('/login', (req, res) => {
 
 function generateToken(user) {
   const payload = {
-    user: user.username
-  };
+    username: user.username
+  }
 
-  const secret = 'top secret';
+  const secret = process.env.JWT_SECRET || 'top secret';
 
   const options = {
     expiresIn: '1h'
-  };
+  }
 
   return jwt.sign(payload, secret, options);
 }
