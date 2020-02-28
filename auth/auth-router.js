@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 
 const users = require('./users-model');
 
+router.get('/', (req, res) => {
+  res.status(200).json({ api: 'up' });
+})
+
 router.post('/register', (req, res) => {
   let user = req.body;
   console.log(user);
